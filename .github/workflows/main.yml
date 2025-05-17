@@ -115,13 +115,13 @@ jobs:
       uses: azure/setup-helm@v4.2.0
 
     - name: Lint helm
-      run: helm lint ./vs-front/
+      run: helm lint ./vsfront/
 
     - name: Template Helm
-      run: helm template vs-front ./vs-front/ -f ./vs-front/values.yaml
+      run: helm template vsfront ./vsfront/ -f ./vsfront/values.yaml
 
     - name: Package Helm
-      run: helm package ./vs-front
+      run: helm package ./vsfront
 
     - name: Upload Helm Artifact
       uses: actions/upload-artifact@v4

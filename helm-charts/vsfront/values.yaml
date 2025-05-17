@@ -4,11 +4,11 @@ vs-back:
     MYSQL_USER: app_user
     MYSQL_PASSWORD: 1234
 
-vs-front:
+vsfront:
   namespace: todoapp
   image:
-    repository: ikulyk404/todoapp
-    tag: "4.0.1"
+    repository: volodimirkaranuk7/vinoselecto-backend
+    tag: "last"
 
   resources:
     requests:

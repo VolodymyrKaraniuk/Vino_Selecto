@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}
-  namespace: {{ .Values.vs-front.namespace }}
+  namespace: {{ .Values.vsfront.namespace }}
 spec:
   strategy:
     type: RollingUpdate
@@ -19,14 +19,14 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: {{ .Values.vs-front.image.repository }}:{{ .Values.todoapp.image.tag }}
+        image: {{ .Values.vsfront.image.repository }}:{{ .Values.todoapp.image.tag }}
         resources:
           requests:
-            memory: {{ .Values.vs-front.resources.requests.memory }}
-            cpu: {{ .Values.vs-front.resources.requests.cpu }}
+            memory: {{ .Values.vsfront.resources.requests.memory }}
+            cpu: {{ .Values.vsfront.resources.requests.cpu }}
           limits:
-            memory: {{ .Values.vs-front.resources.limits.memory }}
-            cpu: {{ .Values.vs-front.resources.limits.cpu }}
+            memory: {{ .Values.vsfront.resources.limits.memory }}
+            cpu: {{ .Values.vsfront.resources.limits.cpu }}
         env:
         - name: PYTHONUNBUFFERED
           valueFrom:
