@@ -33,7 +33,7 @@ jobs:
 
       - name: Test back
         run: |
-         cross-env NODE_ENV=production node ./server.js
+         npm run start
 
   #     - name: Install dependencies
   #       run: |
