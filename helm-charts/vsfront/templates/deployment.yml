@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: {{ .Values.vsfront.image.repository }}:{{ .Values.todoapp.image.tag }}
+        image: {{ .Values.vsfront.image.repository }}:{{ .Values.vsfront.image.tag }}
         resources:
           requests:
             memory: {{ .Values.vsfront.resources.requests.memory }}
