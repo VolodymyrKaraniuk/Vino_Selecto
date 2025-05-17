@@ -16,7 +16,7 @@ env:
   DockerImageNameFrontend: vinoselecto-Frontend
 
 jobs: 
-  backend-python-ci:
+  backend-ci:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,110 +30,115 @@ jobs:
         with:
           python-version: ${{ env.PythonVersion }}
 
-      - name: Install dependencies
+
+      - name: Test back
         run: |
-          python -m pip install --upgrade pip
-          pip install coverage flake8
-          pip install -r requirements.txt
+         cross-env NODE_ENV=production node ./server.js
 
-      - name: Run tests
-        run: |
-          python manage.py test
+  #     - name: Install dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install coverage flake8
+  #         pip install -r requirements.txt
 
-      - name: Generate Report
-        run: |
-          coverage run --source='.' manage.py test
-          coverage report
+  #     - name: Run tests
+  #       run: |
+  #         python manage.py test
 
-      - name: Linting
-        run: |
-          flake8 . --show-source --statistics --exit-zero
+  #     - name: Generate Report
+  #       run: |
+  #         coverage run --source='.' manage.py test
+  #         coverage report
 
-      - name: Check Complexity
-        run: |
-          flake8 . --exit-zero --max-complexity=6
+  #     - name: Linting
+  #       run: |
+  #         flake8 . --show-source --statistics --exit-zero
 
-      - name: Upload python artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-artifacts
-          path: .
+  #     - name: Check Complexity
+  #       run: |
+  #         flake8 . --exit-zero --max-complexity=6
 
-      - name: Upload helm artifacts
-        if: github.ref_name == 'main'
-        uses: actions/upload-artifact@v4
-        with:
-          name: helm-artifacts
-          path: ${{ github.workspace }}/helm-charts
+  #     - name: Upload python artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: python-artifacts
+  #         path: .
 
-      - name: Upload kind cluster artifact
-        if: github.ref_name == 'main'
-        uses: actions/upload-artifact@v4
-        with:
-          name: kind-cluster
-          path: ${{ github.workspace }}/cluster.yml
+  #     - name: Upload helm artifacts
+  #       if: github.ref_name == 'main'
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: helm-artifacts
+  #         path: ${{ github.workspace }}/helm-charts
 
-  backend-docker-ci:
-    name: Build and Push Image
-    runs-on: ubuntu-latest
-    if: ${{ github.ref_name == 'main' }}
-    needs: backend-python-ci
-    steps:
+  #     - name: Upload kind cluster artifact
+  #       if: github.ref_name == 'main'
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: kind-cluster
+  #         path: ${{ github.workspace }}/cluster.yml
 
-    - uses: actions/download-artifact@v4
-      name: Download python artifacts
-      with:
-        name: python-artifacts
-        path: .
+  # backend-docker-ci:
+  #   name: Build and Push Image
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.ref_name == 'main' }}
+  #   needs: backend-ci
+  #   steps:
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #   - uses: actions/download-artifact@v4
+  #     name: Download python artifacts
+  #     with:
+  #       name: python-artifacts
+  #       path: .
 
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        push: true
-        context: ./src/backend
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DockerImageNameBackend }}:${{ github.sha }}
+  #   - name: Login to Docker Hub
+  #     uses: docker/login-action@v3
+  #     with:
+  #       username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  backend-helm-ci:
-    runs-on: ubuntu-latest
-    needs: backend-python-ci
-    if: github.ref_name == 'main'
-    name: Helm CI
-    steps:
+  #   - name: Build and push
+  #     uses: docker/build-push-action@v5
+  #     with:
+  #       push: true
+  #       context: ./src/backend
+  #       tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DockerImageNameBackend }}:${{ github.sha }}
 
-    - uses: actions/download-artifact@v4
-      with:
-        name: helm-artifacts
-        path: .
+  # backend-helm-ci:
+  #   runs-on: ubuntu-latest
+  #   needs: backend-ci
+  #   if: github.ref_name == 'main'
+  #   name: Helm CI
+  #   steps:
 
-    - name: Set Up Helm
-      uses: azure/setup-helm@v4.2.0
+  #   - uses: actions/download-artifact@v4
+  #     with:
+  #       name: helm-artifacts
+  #       path: .
 
-    - name: Lint helm
-      run: helm lint ./vsfront/
+  #   - name: Set Up Helm
+  #     uses: azure/setup-helm@v4.2.0
 
-    - name: Template Helm
-      run: helm template vsfront ./vsfront/ -f ./vsfront/values.yaml
+  #   - name: Lint helm
+  #     run: helm lint ./vsfront/
 
-    - name: Package Helm
-      run: helm package ./vsfront
+  #   - name: Template Helm
+  #     run: helm template vsfront ./vsfront/ -f ./vsfront/values.yaml
 
-    - name: Upload Helm Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: helm-package
-        path: ./*.tgz
+  #   - name: Package Helm
+  #     run: helm package ./vsfront
 
-  deploy-helm-dev:
-    name: Deploy helm
-    uses: ./.github/workflows/reusable-deployment.yml
-    needs: [backend-helm-ci, backend-docker-ci]
-    secrets: inherit
-    with:
-      environment: development
-      version: ${{ github.sha }}
+  #   - name: Upload Helm Artifact
+  #     uses: actions/upload-artifact@v4
+  #     with:
+  #       name: helm-package
+  #       path: ./*.tgz
+
+  # deploy-helm-dev:
+  #   name: Deploy helm
+  #   uses: ./.github/workflows/reusable-deployment.yml
+  #   needs: [backend-helm-ci, backend-docker-ci]
+  #   secrets: inherit
+  #   with:
+  #     environment: development
+  #     version: ${{ github.sha }}

@@ -1,0 +1,232 @@
+@import-normalize; /* bring in normalize.css styles */
+
+:root {
+  /* fonts */
+  --secondary-font: 'Coolvetica', sans-serif;
+}
+
+:root {
+  --transition-changetheme-background-color: transform 250ms
+      cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-changetheme-color: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 1s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-changetheme-border-color: transform 250ms
+      cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 1s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-color: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* background colors */
+  --sidebar-background-color: #e3f3ff;
+  --primary-background-color: #ffffff;
+  --secondary-background-color: #f7f6f9;
+  --tetriary-background-color: #fff;
+  /* text colors */
+  --sidebar-focus-text-color: #3e85f3;
+  --sidebar-text-color: #34343480;
+  --primary-text-color: #111111;
+  --secondary-text-color: #343434;
+  --input-time-color: #343434;
+  --task-drop-down-color: #343434;
+
+  /* button colors */
+  --btn-background-color: #3e85f3;
+  --btn-text-color: #fff;
+  --btn-hover-color: #2b78ef;
+  --btn-task-form-background-color: #efefef;
+  --btn-task-form-background-color-hover: #3e85f3;
+
+  /* navigation colors */
+  --navigation-text-gooseTrack-color: #3e85f3;
+  --navigation-text-userPanel-color: #34343480;
+  --navigation-choosePage-active-color: #3e85f3;
+  --navigation-choosePage-color: #34343480;
+  --navigation-border-right-color: #dce3e580;
+
+  /* header colors */
+  --header-userphoto-border-color: #3e85f3;
+
+  /* User Profile colors */
+  --userprofile-photo-border-color: #3e85f3;
+  --userprofile-text-user-color: #343434;
+  --userprofile-text-input-label-color: #111111;
+  --userprofile-input-border-color: #11111126;
+  --userprofile-no-photo-color: #f8f8f8;
+  --userprofile-input-placeholder-color: rgba(17, 17, 17, 0.15);
+
+  /* calendar colors */
+  --calendar-arrow-color: #dce3e5;
+  --calendar-arrow-active-color: #343434;
+  --calendar-monthOrDay-background-color: #e3f3ff;
+  --calendar-monthOrDay-active-background-color: #cae8ff;
+  --calendar-monthOrDay-text-color: #3e85f3;
+  --calendar-monthOrDay-active-text-color: #3e85f3;
+  --calendar-monthOrDay-border-color: #3e85f333;
+
+  /* -MONTH- */
+  --calendar-month-week-weekend-color: #3e85f3;
+  --calendar-month-border-color: rgba(220, 227, 229, 0.8);
+
+  /* DAY */
+
+  --calendar-day-addTask-btn-background-color: #e3f3ff;
+  --calendar-day-addTask-btn-border-color: #3e85f3;
+
+  --calendar-day-task-border-color: rgba(220, 227, 229, 0.8);
+
+  --calendar-day-task-buttons-active-color: #3e85f3;
+
+  --calendar-day-task-levels-low-color: #72c2f8;
+  --calendar-day-task-levels-medium-color: #f3b249;
+  --calendar-day-task-levels-high-color: #ea3d65;
+
+  /* statistic colors  */
+  --statistic-border-color: rgba(227, 243, 255, 1);
+
+  /* modal colors */
+  --modal-background-color: #ffffff;
+
+  --modal-primary-text-color: rgba(52, 52, 52, 0.8);
+
+  --modal-input-background-color: #f6f6f6;
+
+  /* FEEDBACK */
+  --modal-feedback-rating-inactive-color: #cec9c1;
+  --modal-feedback-btn-cancel-background-color: #e5edfa;
+  --modal-feedback-edit-btn-inactive-color: #e3f3ff;
+  --modal-feedback-icon-close-btn-color: #111111;
+  --modal-feedback-input-border-color: #f6f6f6;
+  --modal-feedback-input-border-color-hover: rgba(255, 255, 255, 0.15);
+
+  /* error */
+  --error-text-color: rgba(17, 17, 17, 0.7);
+}
+
+.dark {
+  /* background colors */
+  --sidebar-background-color: #3e85f3;
+  --primary-background-color: #13151a;
+  --secondary-background-color: #171820;
+  --tetriary-background-color: #21222c;
+
+  /* text colors */
+  --sidebar-focus-text-color: #ffffff;
+  --sidebar-text-color: #ffffff;
+  --primary-text-color: #ffffff;
+  --secondary-text-color: #ffffff;
+  --input-time-color: #fff;
+  --task-drop-down-color: #fff;
+
+  /* dark navigation colors */
+  --navigation-text-gooseTrack-color: #e3f3ff;
+  --navigation-text-userPanel-color: #fafafa4d;
+  --navigation-choosePage-active-color: #ffffff;
+  --navigation-choosePage-color: #ffffff;
+  --navigation-border-right-color: none;
+
+  /* header colors */
+
+  /* User Profile colors */
+  --userprofile-text-user-color: #fafafa4d;
+  --userprofile-text-input-label-color: #fafafa4d;
+  --userprofile-input-border-color: #ffffff26;
+  --userprofile-no-photo-color: #171820;
+  --userprofile-input-placeholder-color: rgba(250, 250, 250, 0.3);
+
+  /* calendar colors */
+  --calendar-arrow-color: #ffffff26;
+  --calendar-arrow-active-color: #ffffff;
+  --calendar-monthOrDay-background-color: #21222c;
+  --calendar-monthOrDay-active-background-color: #3e85f3;
+  --calendar-monthOrDay-text-color: #3e85f3;
+  --calendar-monthOrDay-active-text-color: #ffffff;
+  --calendar-monthOrDay-border-color: #3e85f333;
+
+  /* -MONTH- */
+  --calendar-month-border-color: rgba(255, 255, 255, 0.15);
+
+  /* DAY */
+
+  --calendar-day-addTask-btn-background-color: #3e85f3;
+
+  --calendar-day-task-border-color: rgba(255, 255, 255, 0.15);
+
+  --calendar-day-task-buttons-color: #ffffff;
+
+  /* statistic colors  */
+  --statistic-border-color: rgba(227, 243, 255, 0.15);
+
+  /* modal colors */
+  --modal-background-color: #171820;
+  --modal-input-border-color: rgba(255, 255, 255, 0.15);
+
+  --modal-primary-text-color: rgba(250, 250, 250, 0.3);
+
+  --modal-input-background-color: #171820;
+
+  /* FEEDBACK */
+  --modal-feedback-rating-inactive-color: #353647;
+  --modal-feedback-btn-cancel-background-color: #21222c;
+  --modal-feedback-icon-close-btn-color: #ffffff;
+  --modal-feedback-input-border-color-hover: #3e85f3;
+  --modal-feedback-edit-btn-inactive-color: #353647;
+
+  /* error */
+  --error-text-color: rgba(255, 255, 255, 1);
+}
+
+body {
+  background-color: var(--secondary-background-color);
+  background-size: auto 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #111111;
+  width: 100%;
+  height: 100vh;
+  transition: var(--transition-changetheme-background-color),
+    var(--transition-changetheme-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+button {
+  cursor: pointer;
+  padding: 0;
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  outline: transparent;
+}
+input {
+  font-family: inherit;
+}
+body {
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
