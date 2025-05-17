@@ -24,28 +24,28 @@ nodes:
       - hostPath: /tmp
         containerPath: /data
     labels:
-      app: mysql
+      app: vs-back
   - role: worker
     extraMounts:
       - hostPath: /tmp
         containerPath: /data
     labels:
-      app: mysql
+      app: vs-back
   - role: worker
     extraMounts:
       - hostPath: /tmp
         containerPath: /data
     labels:
-      app: todoapp
+      app: vs-back
   - role: worker
     extraMounts:
       - hostPath: /tmp
         containerPath: /data
     labels:
-      app: todoapp
+      app: vs-back
   - role: worker
     extraMounts:
       - hostPath: /tmp
         containerPath: /data
     labels:
-      app: todoapp
+      app: vs-back
