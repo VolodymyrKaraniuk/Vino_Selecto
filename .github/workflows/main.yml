@@ -81,7 +81,7 @@ jobs:
           path: ${{ github.workspace }}/cluster.yml
 
   backend-docker-ci:
-    name: Build and Push Image
+    name: Build and Push Backend Image
     runs-on: ubuntu-latest
     if: ${{ github.ref_name == 'main' }}
     needs: upload-ci
@@ -107,7 +107,7 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DockerImageNameBackend }}:${{ github.sha }}
 
   frontend-docker-ci:
-    name: Build and Push Image
+    name: Build and Push Frontend Image
     runs-on: ubuntu-latest
     if: ${{ github.ref_name == 'main' }}
     needs: upload-ci
