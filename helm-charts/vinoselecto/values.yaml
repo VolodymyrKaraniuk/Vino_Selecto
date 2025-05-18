@@ -35,8 +35,7 @@ frontend:
   ingress:
     enabled: true
     className: "nginx"
-    hosts:
-      - host: "app.example.com"
+    host: "app.example.com"
     annotations: "letsencrypt-prod"
   resources:
     limits:
