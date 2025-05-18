@@ -14,7 +14,12 @@ env:
 
 backend:
   enabled: true
-  replicaCount: 2
+  minReplicas: 2
+  maxReplicas: 3
+  cpu:
+    avarageUtilization: 70
+  memory:
+    avarageUtilization: 70
   image:
     repository: "volodimirkaranuk7/vinoselecto-backend"
     tag: "last"
