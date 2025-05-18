@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src/backend
+        working-directory: ./src
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,17 +53,11 @@ jobs:
       #   run: |
       #     flake8 . --exit-zero --max-complexity=6
 
-      - name: Upload backend artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: backend-artifacts
-          path: ${{ github.workspace }}/src/backend
-
-      - name:  Upload frontend artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-artifacts
-          path: ${{ github.workspace }}/src/frontend
+          path: .
 
 
       - name: Upload helm artifacts
