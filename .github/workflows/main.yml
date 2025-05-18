@@ -165,7 +165,7 @@ jobs:
   deploy-helm-dev:
     name: Deploy helm
     uses: ./.github/workflows/reusable-deployment.yml
-    needs: [helm-ci, backend-docker-ci]
+    needs: [helm-ci, backend-docker-ci, frontend-docker-ci]
     secrets: inherit
     with:
       environment: development
