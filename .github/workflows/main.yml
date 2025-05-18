@@ -13,10 +13,10 @@ concurrency:
 env:
   PythonVersion: 3.8
   DockerImageNameBackend: vinoselecto-backend
-  DockerImageNameFrontend: vinoselecto-Frontend
+  DockerImageNameFrontend: vinoselecto-frontend
 
-jobs: 
-  backend-ci:
+jobs:
+  upload-ci:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -53,11 +53,18 @@ jobs:
       #   run: |
       #     flake8 . --exit-zero --max-complexity=6
 
-      - name: Upload python artifacts
+      - name: Upload backend artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: python-artifacts
+          name: backend-artifacts
+          path: ${{ github.workspace }}/src/frontend
+
+      - name:  Upload frontend artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-artifacts
           path: .
+
 
       - name: Upload helm artifacts
         if: github.ref_name == 'main'
@@ -77,13 +84,13 @@ jobs:
     name: Build and Push Image
     runs-on: ubuntu-latest
     if: ${{ github.ref_name == 'main' }}
-    needs: backend-ci
+    needs: upload-ci
     steps:
 
     - uses: actions/download-artifact@v4
-      name: Download python artifacts
+      name: Download backend artifacts
       with:
-        name: python-artifacts
+        name: backend-artifacts
         path: .
 
     - name: Login to Docker Hub
@@ -99,9 +106,35 @@ jobs:
         context: ./src/backend
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DockerImageNameBackend }}:${{ github.sha }}
 
-  backend-helm-ci:
+  frontend-docker-ci:
+    name: Build and Push Image
     runs-on: ubuntu-latest
-    needs: backend-ci
+    if: ${{ github.ref_name == 'main' }}
+    needs: upload-ci
+    steps:
+
+    - uses: actions/download-artifact@v4
+      name: Download frontend artifacts
+      with:
+        name: frontend-artifacts
+        path: .
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        context: ./src/frontend
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DockerImageNameFrontend }}:${{ github.sha }}
+
+  helm-ci:
+    runs-on: ubuntu-latest
+    needs: upload-ci
     if: github.ref_name == 'main'
     name: Helm CI
     steps:
@@ -115,13 +148,13 @@ jobs:
       uses: azure/setup-helm@v4.2.0
 
     - name: Lint helm
-      run: helm lint ./vsfront/
+      run: helm lint ./vinoselecto/
 
     - name: Template Helm
-      run: helm template vsfront ./vsfront/ -f ./vsfront/values.yaml
+      run: helm template vinoselecto ./vinoselecto/ -f ./vinoselecto/values.yaml
 
     - name: Package Helm
-      run: helm package ./vsfront
+      run: helm package ./vinoselecto
 
     - name: Upload Helm Artifact
       uses: actions/upload-artifact@v4
@@ -132,7 +165,7 @@ jobs:
   deploy-helm-dev:
     name: Deploy helm
     uses: ./.github/workflows/reusable-deployment.yml
-    needs: [backend-helm-ci, backend-docker-ci]
+    needs: [helm-ci, backend-docker-ci]
     secrets: inherit
     with:
       environment: development

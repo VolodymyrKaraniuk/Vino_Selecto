@@ -1,0 +1,44 @@
+# Deployment Configuration
+replicaCount: 2
+
+# Image Configuration
+image:
+  repository: your-registry/frontend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Service Configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+# Backend Connection
+backend:
+  serviceName: "backend-service"  # Will be overridden when used with backend chart
+  port: 8080
+  basePath: "/api"
+
+# Environment Variables
+env:
+  NODE_ENV: production
+  API_TIMEOUT: "30"
+
+# Ingress Configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  host: "yourdomain.com"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  tls: false
+  # tlsSecret: "frontend-tls"  # Uncomment if using TLS
+
+# Resources
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "200m"
+    memory: "256Mi"

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-frontend-config
+data:
+  config.json: |
+    {
+      "apiEndpoint": "http://{{ .Values.backend.serviceName }}:{{ .Values.backend.port }}{{ .Values.backend.basePath }}",
+      "environment": "{{ .Values.env.NODE_ENV }}"
+    }

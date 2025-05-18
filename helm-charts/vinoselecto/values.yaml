@@ -1,0 +1,47 @@
+global:
+  # Shared configuration
+  appName: "vinoselecto"
+  environment: "production"
+
+  # Backend connection details
+  backend:
+    serviceName: "{{ .Release.Name }}-backend" # Templated for release name
+    port: 8080
+    basePath: "/api"
+
+# Backend subchart values
+backend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: "volodimirkaranuk7/vinoselecto-backend"
+    tag: "last"
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+
+# Frontend subchart values
+frontend:
+  enabled: true
+  replicaCount: 3
+  backendUrl: "http://{{ .Release.Name }}-backend:{{ .Values.backend.service.port }}"
+  image:
+    repository: "myregistry/frontend"
+    tag: "last"
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "app.example.com"
+    annotations: "letsencrypt-prod"
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "200m"

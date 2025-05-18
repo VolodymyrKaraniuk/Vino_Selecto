@@ -1,0 +1,27 @@
+
+pullPolicy: IfNotPresent
+namespace: backend
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+env:
+  - name: APP_ENV
+    value: "production"
+  - name: SERVICE_NAME
+    value: "{{ .Release.Name }}-backend"
+
+backend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: "volodimirkaranuk7/vinoselecto-backend"
+    tag: "last"
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
